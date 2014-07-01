@@ -418,11 +418,11 @@ Sends notifications to iOS devices when new email messages and calendar entries 
 ==== Service: `Enterprise Management Web Service`
 Sends profiles, applications, IT policies, and IT administration commands to BlackBerry devices.
 
-=== BlackBerry TCP ports
+=== BlackBerry HTTP and HTTPS based services
 
-==== TCP Port: Admin Service (HTTP)
-This component monitor tests the ability of a BES Admin service to accept incoming sessions by HTTP.
-By default it monitors TCP port `38180`.
+==== HTTP access to Admin Service
+This component monitor tests the ability of a _BES Admin service_ to accept incoming sessions by HTTP.
+By default port is `38180`.
 
 .Monitoring with HTTP in `poller-configuration.xml`
 [source, xml]
@@ -431,16 +431,16 @@ By default it monitors TCP port `38180`.
     <parameter key="retry" value="3"/>
     <parameter key="timeout" value="3000"/>
     <parameter key="port" value="38180"/>
-    <parameter key="host-name" value="bb-admin-service"/>
+    <parameter key="host-name" value="bb-admin-http"/>
     <parameter key="response" value="200-202,299"/>
 </service>
 
 <monitor service="HTTP-BlackBerry-Admin-Service" class-name="org.opennms.netmgt.poller.monitors.HttpMonitor"/>
 ----
 
-==== TCP Port: Admin Service (HTTPS)
-This component monitor tests the ability of a BES Admin service to accept incoming sessions by HTTPS.
-By default it monitors TCP port `38443`.
+==== HTTPS access to Admin Service
+This component monitor tests the ability of a _BES Admin service_ to accept incoming sessions by HTTPS.
+By default port is `38443`.
 
 .Monitoring HTTPS in `poller-configuration.xml`
 [source, xml]
@@ -449,56 +449,52 @@ By default it monitors TCP port `38443`.
     <parameter key="retry" value="3"/>
     <parameter key="timeout" value="3000"/>
     <parameter key="port" value="38443"/>
-    <parameter key="host-name" value="bb-admin-service"/>
+    <parameter key="host-name" value="bb-admin-https"/>
     <parameter key="response" value="200-202,299"/>
 </service>
 
 <monitor service="HTTPS-BlackBerry-Admin-Service" class-name="org.opennms.netmgt.poller.monitors.HttpsMonitor"/>
 ----
 
-==== TCP Port: Licensing Server
-This component monitor tests the ability of a BES Licensing service to accept incoming sessions by HTTPS.
-By default it monitors TCP port `3333`.
+==== HTTPS access to Licensing Server
+This component monitor tests the ability of a _BES Licensing service_ to accept incoming sessions by HTTPS.
+By default port is `3333`.
 
 .Monitoring connectivity to Licensing Server in `poller-configuration.xml`
 [source, xml]
 ----
-<service name="TCP-BlackBerry-Licensing-Server" interval="300000" user-defined="false" status="on">
-    <parameter key="retry" value="3" />
-    <parameter key="banner" value="*" />
-    <parameter key="port" value="3333" />
-    <parameter key="timeout" value="3000" />
-    <parameter key="rrd-repository" value="/var/lib/opennms/rrd/response" />
-    <parameter key="rrd-base-name" value="bb-licensing" />
-    <parameter key="ds-name" value="bb-licensing" />
+<service name="HTTPS-BlackBerry-Licensing-Server" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="3"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="3333"/>
+    <parameter key="host-name" value="bb-licensing-service"/>
+    <parameter key="response" value="200-202,299"/>
 </service>
 
-<monitor service="TCP-BlackBerry-Licensing-Server" class-name="org.opennms.netmgt.poller.monitors.TcpMonitor"/>
+<monitor service="HTTPS-BlackBerry-Licensing-Server" class-name="org.opennms.netmgt.poller.monitors.HttpsMonitor"/>
 ----
 
-==== TCP Port: Universal Device Service
-This component monitor tests the ability of a BES Universal Device service to accept incoming sessions by HTTPS.
-By default it monitors TCP port `6443`.
+==== HTTPS access to Universal Device Service
+This component monitor tests the ability of a _BES Universal Device service_ to accept incoming sessions by HTTPS.
+By default port is `6443`.
 
 .Monitoring connectivity to Universal Device Service in `poller-configuration.xml`
 [source, xml]
 ----
-<service name="TCP-BlackBerry-Universal-Device-Service" interval="300000" user-defined="false" status="on">
-    <parameter key="retry" value="3" />
-    <parameter key="banner" value="*" />
-    <parameter key="port" value="6443" />
-    <parameter key="timeout" value="3000" />
-    <parameter key="rrd-repository" value="/var/lib/opennms/rrd/response" />
-    <parameter key="rrd-base-name" value="bb-uds" />
-    <parameter key="ds-name" value="bb-uds" />
+<service name="HTTPS-BlackBerry-Universal-Device-Service" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="3"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="6443"/>
+    <parameter key="host-name" value="bb-licensing-service"/>
+    <parameter key="response" value="200-202,299"/>
 </service>
 
-<monitor service="TCP-BlackBerry-Universal-Device-Service" class-name="org.opennms.netmgt.poller.monitors.TcpMonitor"/>
+<monitor service="HTTPS-BlackBerry-Universal-Device-Service" class-name="org.opennms.netmgt.poller.monitors.HttpsMonitor"/>
 ----
 
-==== TCP Port: BlackBerry Management Studio
-This component monitor tests the ability of a BES Management Studio to accept incoming sessions by HTTPS.
-By default it monitors TCP port `7443`.
+==== HTTPS access to BlackBerry Management Studio
+This component monitor tests the ability of a _BES Management Studio_ to accept incoming sessions by HTTPS.
+By default port is `7443`.
 
 .Monitoring connectivity to Management Studio in `poller-configuration.xml`
 [source, xml]
@@ -513,5 +509,5 @@ By default it monitors TCP port `7443`.
     <parameter key="ds-name" value="bb-mgmt-stdio" />
 </service>
 
-<monitor service="TCP-BlackBerry-Management-Studio" class-name="org.opennms.netmgt.poller.monitors.TcpMonitor"/>
+<monitor service="TCP-BlackBerry-Management-Studio" class-name="org.opennms.netmgt.poller.monitors.HttpsMonitor"/>
 ----
