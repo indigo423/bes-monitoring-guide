@@ -4,16 +4,34 @@
 
 === Windows Services
 
+==== Service: NetLogon
+This service is responsible for creating Secure Channel between Domain Controllers and client computers.
+Secure Channel is created to pass the authentication packets.
+Service performs the registration of `SRV` records, `CNAME` and other `DC` records in the DNS Server to advertise the availability of Domain Controllers in the domain.
+`SRV` Records registered by `NetLogon Service` are stored in `C:\Windows\System32\Config\NetLogon.DNS` File.
+Performs registration of `SRV` Records every 24 hours depending on the version of Operating System in use.
+Registers the `SRV` Records for a site where there is no Domain Controller.
+This is called Site Coverege.
+
 [source, xml]
 ----
-<service name="Win32-Net-Logon" interval="300000" user-defined="false" status="on">
+<service name="Win32-NetLogon" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="NetLogon"/>
+</service>
+<monitor service="Win32-NetLogon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+----
+
+[source, xml]
+----
+<service name="Win32-K" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
     <parameter key="timeout" value="3000"/>
     <parameter key="port" value="161"/>
     <parameter key="service-name" value="Task Scheduler"/>
 </service>
-
-<monitor service="Win32-Net-Logon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 
 <service name="Win32-K" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
@@ -23,9 +41,7 @@
 </service>
 
 <monitor service="Win32-Net-Logon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
-
-
-
+<monitor service="Win32-Time" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
 FRS, Net Logon, KDC, W32Time, ISMSERV
