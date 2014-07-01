@@ -5,13 +5,13 @@
 === Windows Services
 
 ==== Service: NetLogon
-This service is responsible for creating Secure Channel between Domain Controllers and client computers.
+This service is responsible for creating Secure Channel between _Domain Controllers_ and client computers.
 Secure Channel is created to pass the authentication packets.
-Service performs the registration of `SRV` records, `CNAME` and other `DC` records in the DNS Server to advertise the availability of Domain Controllers in the domain.
+Service performs the registration of `SRV` records, `CNAME` and other `DC` records in the DNS Server to advertise the availability of _Domain Controllers_ in the domain.
 `SRV` Records registered by `NetLogon Service` are stored in `C:\Windows\System32\Config\NetLogon.DNS` File.
 Performs registration of `SRV` Records every 24 hours depending on the version of Operating System in use.
-Registers the `SRV` Records for a site where there is no Domain Controller.
-This is called Site Coverege.
+Registers the `SRV` Records for a site where there is no _Domain Controller_.
+This is called _Site Coverege_.
 
 [source, xml]
 ----
@@ -25,6 +25,13 @@ This is called Site Coverege.
 <monitor service="Win32-NetLogon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
+==== Service: File Replication Service (FRS)
+_File Replication service (FRS)_ is a technology that replicates files and folders stored in the `SYSVOL` shared folder on _Domain Controllers_ and _Distributed File System (DFS)_ shared folders.
+When _FRS_ detects that a change has been made to a file or folder within a replicated shared folder, _FRS_ replicates the updated file or folder to other servers.
+Because _FRS_ is a multimaster replication service, any server that participates in replication can generate changes.
+In addition, _FRS_ can resolve file and folder conflicts to make data consistent among servers.
+
+Further details: http://technet.microsoft.com/en-us/library/cc781582%28v=ws.10%29.aspx[Technet: What Is FRS?]
 [source, xml]
 ----
 <service name="Win32-K" interval="300000" user-defined="false" status="on">
@@ -45,9 +52,57 @@ This is called Site Coverege.
 <monitor service="Win32-Time" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
-FRS, Net Logon, KDC, W32Time, ISMSERV
+==== Key Distribution Center
+The _Key Distribution Center (KDC)_ is implemented as a domain service.
+It uses the _Active Directory_ as its account database and the _Global Catalog_ for directing referrals to _KDCs_ in other domains.
+As in other implementations of the _Kerberos_ protocol, the _KDC_ is a single process that provides two services:
 
-=== Shares for Net-Logon
+- Authentication Service (AS)
+  This service issues ticket-granting tickets (TGTs) for connection to the ticket-granting service in its own domain or in any trusted domain.
+  Before a client can ask for a ticket to another computer, it must request a TGT from the authentication service in the client's account domain.
+  The authentication service returns a TGT for the ticket-granting service in the target computer's domain.
+  The TGT can be reused until it expires, but the first access to any domain's ticket-granting service always requires a trip to the authentication service in the client's account domain.
+
+- Ticket-Granting Service (TGS)
+  This service issues tickets for connection to computers in its own domain.
+  When clients want access to a computer, they contact the ticket-granting service in the target computer's domain, present a TGT, and ask for a ticket to the computer.
+  The ticket can be reused until it expires, but the first access to any computer always requires a trip to the ticket-granting service in the target computer's account domain.
+
+Further details: http://msdn.microsoft.com/en-us/library/windows/desktop/aa378170%28v=vs.85%29.aspx[Technet: Key Distribution Center]
+
+[source, xml]
+----
+<service name="Win32-K" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="Task Scheduler"/>
+</service>
+
+<monitor service="Win32-Net-Logon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+----
+
+==== Time Synchronization
+The _Kerberos_ authentication protocol gets its time from the _Domain Controller_ on which it is running, and it uses that time to determine ticket expiration times and to resolve replication conflicts.
+If a time skew of greater than five minutes exists between domain controllers, _Kerberos_ authentication fails, which causes problems in _Active Directory_.
+The Windows Time service (`W32Time`) synchronizes the time between domain controllers, which prevents time skews from occurring.
+
+[source, xml]
+----
+<service name="Win32-Time-Service" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="W32Time"/>
+</service>
+
+<monitor service="Win32-Time-Service" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+----
+
+
+ISMSERV
+
+=== Active Directory specific shared folders
 
 [source, xml]
 ----
