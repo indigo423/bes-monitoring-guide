@@ -99,8 +99,26 @@ The Windows Time service (`W32Time`) synchronizes the time between domain contro
 <monitor service="Win32-Time-Service" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
+==== ISM
+This service enables messages to be exchanged between computers running _Windows Server sites_.
+This service is used for mail-based replication between sites.
+_Active Directory_ includes support for replication between sites by using _SMTP over IP transport_.
+_SMTP_ support is provided by the _SMTP_ service, which is a component of _IIS_.
+The set of transports used for communication between sites must be extensible; therefore, each transport is defined in a separate add-in dynamic link library (DLL).
+These add-in _DLLs_ are loaded into the _ISM service_, which runs on all _Domain Controllers_ that are candidates for performing communication between sites.
+The _ISM service_ directs send requests and receive requests to the appropriate transport add-in DLLs, which then route the messages to the ISM service on the destination computer.
 
-ISMSERV
+[source, xml]
+----
+<service name="Win32-ISM-Service" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="W32Time"/>
+</service>
+
+<monitor service="Win32-ISM-Service" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+----
 
 === Active Directory specific shared folders
 
