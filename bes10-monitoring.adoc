@@ -382,41 +382,22 @@ Exchange 2013 Management Pack Health Sets
 
 === BlackBerry Windows Services
 
-==== Service: `Administration Console`
-An administration console that permits you to manage iOS devices and Android devices.
-
-==== Service: `BlackBerry Administration Service - Application Server`
-This is the Application Server of the BlackBerry Administration Service.
-
-==== Service: `BlackBerry Administration Service - Native Code Container`
-This is the Native Code Container of the BlackBerry Administration Service.
-
-==== Service: `BlackBerry Controller`
-Monitors components and restarts them if they stop responding.
-
-==== Service: `BlackBerry Dispatcher`
-Performs data encryption and compression services for data that BlackBerry devices send or receive through the BlackBerry Infrastructure.
-
-==== Service: `BlackBerry Licensing Service`
-If registered as the active licensing server, stores the licenses for use.
-
-==== Service: `BlackBerry Management Studio`
-An administration console that permits you to manage BlackBerry devices, iOS devices, and Android devices.
-
-==== Service: `BlackBerry MDS Connection Service`
-Provides a communication channel for BlackBerry devices to access application servers and content servers on your organization's intranet or on the Internet.
-
-==== Service: `BlackBerry Secure Connect Service`
-Maintains a connection through the BlackBerry Infrastructure with the BES10 Client on iOS devices and Android devices.
-
-==== Service: `BlackBerry Web Services`
-An add-on to the Universal Device Service that contains administrative APIs that are exposed as web services.
-
-==== Service: `BlackBerry Work Connect Notification Service`
-Sends notifications to iOS devices when new email messages and calendar entries are available in the Work Connect app.
-
-==== Service: `Enterprise Management Web Service`
-Sends profiles, applications, IT policies, and IT administration commands to BlackBerry devices.
+[options="header"]
+|========================
+| Service name                                                | Description
+| `Administration Console`                                    | An administration console that permits you to manage iOS devices and Android devices.
+| `BlackBerry Administration Service - Application Server`    | This is the Application Server of the BlackBerry Administration Service.
+| `BlackBerry Administration Service - Native Code Container` | This is the Native Code Container of the BlackBerry Administration Service.
+| `BlackBerry Controller`                                     | Monitors components and restarts them if they stop responding.
+| `BlackBerry Dispatcher`                                     | Performs data encryption and compression services for data that BlackBerry devices send or receive through the BlackBerry Infrastructure.
+| `BlackBerry Licensing Service`                              | If registered as the active licensing server, stores the licenses for use.
+| `BlackBerry Management Studio`                              | An administration console that permits you to manage BlackBerry devices, iOS devices, and Android devices.
+| `BlackBerry MDS Connection Service`                         | Provides a communication channel for BlackBerry devices to access application servers and content servers on your organization's intranet or on the Internet.
+| `BlackBerry Secure Connect Service`                         | Maintains a connection through the BlackBerry Infrastructure with the BES10 Client on iOS devices and Android devices.
+| `BlackBerry Web Services`                                   | An add-on to the Universal Device Service that contains administrative APIs that are exposed as web services.
+| `BlackBerry Work Connect Notification Service`              | Sends notifications to iOS devices when new email messages and calendar entries are available in the Work Connect app.
+| `Enterprise Management Web Service`                         | Sends profiles, applications, IT policies, and IT administration commands to BlackBerry devices.
+|========================
 
 === BlackBerry HTTP and HTTPS based services
 
@@ -431,7 +412,6 @@ By default port is `38180`.
     <parameter key="retry" value="3"/>
     <parameter key="timeout" value="3000"/>
     <parameter key="port" value="38180"/>
-    <parameter key="host-name" value="bb-admin-http"/>
     <parameter key="response" value="200-202,299"/>
 </service>
 
@@ -449,7 +429,6 @@ By default port is `38443`.
     <parameter key="retry" value="3"/>
     <parameter key="timeout" value="3000"/>
     <parameter key="port" value="38443"/>
-    <parameter key="host-name" value="bb-admin-https"/>
     <parameter key="response" value="200-202,299"/>
 </service>
 
@@ -467,7 +446,6 @@ By default port is `3333`.
     <parameter key="retry" value="3"/>
     <parameter key="timeout" value="3000"/>
     <parameter key="port" value="3333"/>
-    <parameter key="host-name" value="bb-licensing-service"/>
     <parameter key="response" value="200-202,299"/>
 </service>
 
@@ -485,7 +463,6 @@ By default port is `6443`.
     <parameter key="retry" value="3"/>
     <parameter key="timeout" value="3000"/>
     <parameter key="port" value="6443"/>
-    <parameter key="host-name" value="bb-licensing-service"/>
     <parameter key="response" value="200-202,299"/>
 </service>
 
@@ -499,15 +476,12 @@ By default port is `7443`.
 .Monitoring connectivity to Management Studio in `poller-configuration.xml`
 [source, xml]
 ----
-<service name="TCP-BlackBerry-Management-Studio" interval="300000" user-defined="false" status="on">
-    <parameter key="retry" value="3" />
-    <parameter key="banner" value="*" />
-    <parameter key="port" value="7443" />
-    <parameter key="timeout" value="3000" />
-    <parameter key="rrd-repository" value="/var/lib/opennms/rrd/response" />
-    <parameter key="rrd-base-name" value="bb-mgmt-stdio" />
-    <parameter key="ds-name" value="bb-mgmt-stdio" />
+<service name="HTTPS-BlackBerry-Management-Studio" interval="300000" user-defined="false" status="on">
+<parameter key="retry" value="3"/>
+<parameter key="timeout" value="3000"/>
+<parameter key="port" value="7443"/>
+<parameter key="response" value="200-202,299"/>
 </service>
 
-<monitor service="TCP-BlackBerry-Management-Studio" class-name="org.opennms.netmgt.poller.monitors.HttpsMonitor"/>
+<monitor service="HTTPS-BlackBerry-Management-Studio" class-name="org.opennms.netmgt.poller.monitors.HttpsMonitor"/>
 ----
