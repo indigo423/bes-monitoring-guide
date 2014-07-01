@@ -13,8 +13,8 @@
     <parameter key="timeout" value="2000"/>
     <parameter key="resolution-type" value="v4"/>
     <parameter key="rrd-repository" value="/opt/opennms/share/rrd/response"/>
-    <parameter key="rrd-base-name" value="dns-res-v6"/>
-    <parameter key="ds-name" value="dns-res-v6"/>
+    <parameter key="rrd-base-name" value="dns-res-v4"/>
+    <parameter key="ds-name" value="dns-res-v4"/>
 </service>
 <service name="DNS-Resolution-v6" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
