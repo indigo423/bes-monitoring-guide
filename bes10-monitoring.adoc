@@ -40,12 +40,12 @@ Restart of the Windows System reogranises the CPU number SNMP index on Multi-Cor
 .Category based thresholding configuration in `threshd-configuration.xml`
 [source, xml]
 ----
-<package name="TH-DISK-80">
-    <filter>catincTH-DISK-80</filter>
+<package name="TH-DISK-90">
+    <filter>catincTH-DISK-90</filter>
     <include-range begin="1.1.1.1" end="254.254.254.254"/>
     <include-range begin="::1" end="ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff" />
     <service name="SNMP" interval="300000" user-defined="false" status="on">
-        <parameter key="thresholding-group" value="TH-DISK-80"/>
+        <parameter key="thresholding-group" value="TH-DISK-90"/>
     </service>
 </package>
 
