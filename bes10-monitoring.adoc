@@ -477,10 +477,10 @@ By default port is `7443`.
 [source, xml]
 ----
 <service name="HTTPS-BlackBerry-Management-Studio" interval="300000" user-defined="false" status="on">
-<parameter key="retry" value="3"/>
-<parameter key="timeout" value="3000"/>
-<parameter key="port" value="7443"/>
-<parameter key="response" value="200-202,299"/>
+    <parameter key="retry" value="3"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="7443"/>
+    <parameter key="response" value="200-202,299"/>
 </service>
 
 <monitor service="HTTPS-BlackBerry-Management-Studio" class-name="org.opennms.netmgt.poller.monitors.HttpsMonitor"/>
