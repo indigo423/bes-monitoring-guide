@@ -8,7 +8,7 @@
 
 [source,xml]
 ----
-<service name="DNS-Resolution-v6" interval="300000" user-defined="false" status="on">
+<service name="DNS-Resolution-v4" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
     <parameter key="timeout" value="2000"/>
     <parameter key="resolution-type" value="v4"/>
