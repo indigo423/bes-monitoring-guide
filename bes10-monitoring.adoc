@@ -488,75 +488,39 @@ report.bes.notconnected.command=--title="Total Seconds Not Connected to Wireless
 [source,xml]
 ----
 <service name="Win32-BB-Admin-Console" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="Administration Console"/>
 </service>
 <service name="Win32-BBAS-Application-Server" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="BlackBerry Administration Service - Application Server"/>
 </service>
 <service name="Win32-BBAS-Native-Code-Container" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="BlackBerry Administration Service - Native Code Container"/>
 </service>
 <service name="Win32-BB-Controller" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="BlackBerry Controller"/>
 </service>
 <service name="Win32-BB-Dispatcher" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="BlackBerry Dispatcher"/>
 </service>
 <service name="Win32-BB-Licensing" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="BlackBerry Licensing Service"/>
 </service>
 <service name="Win32-BB-Management-Studio" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="BlackBerry Management Studio"/>
 </service>
 <service name="Win32-BB-MDS-Connection" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="BlackBerry MDS Connection Service"/>
 </service>
 <service name="Win32-BB-Secure-Connection" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="BlackBerry Secure Connect Service"/>
 </service>
 <service name="Win32-BB-Web-Services" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="BlackBerry Web Services"/>
 </service>
 <service name="Win32-BB-Work-Connect-Notification" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="BlackBerry Work Connect Notification Service"/>
 </service>
 <service name="Win32-BB-Enterprise-Management-Web-Service" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
     <parameter key="service-name" value="Enterprise Management Web Service"/>
 </service>
 
