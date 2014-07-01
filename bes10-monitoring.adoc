@@ -321,6 +321,7 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
 <monitor service="CIFS-Share-SYSVOL" class-name="org.opennms.netmgt.poller.monitors.JCifsMonitor" />
 ----
 
+.Monitor for CIFS Share NetLogon in `poller-configuration.xml`
 [source, xml]
 ----
 <service name="CIFS-Share-NETLOGON" interval="30000" user-defined="true" status="on">
@@ -379,10 +380,138 @@ Exchange 2013 Management Pack Health Sets
 | `besSysHealthSrpLastErrorTime`        | Indicates the date and time of the last connection error.                                                                                 | `1.3.6.1.4.1.3530.5.25.1.16`
 |========================
 
-=== BlackBerry Controller
+=== BlackBerry Windows Services
 
-=== BlackBerry Dispatcher
+==== Service: `Administration Console`
+An administration console that permits you to manage iOS devices and Android devices.
 
-=== BlackBerry Router
+==== Service: `BlackBerry Administration Service - Application Server`
+This is the Application Server of the BlackBerry Administration Service.
 
-=== BlackBerry MDS Connection Service
+==== Service: `BlackBerry Administration Service - Native Code Container`
+This is the Native Code Container of the BlackBerry Administration Service.
+
+==== Service: `BlackBerry Controller`
+Monitors components and restarts them if they stop responding.
+
+==== Service: `BlackBerry Dispatcher`
+Performs data encryption and compression services for data that BlackBerry devices send or receive through the BlackBerry Infrastructure.
+
+==== Service: `BlackBerry Licensing Service`
+If registered as the active licensing server, stores the licenses for use.
+
+==== Service: `BlackBerry Management Studio`
+An administration console that permits you to manage BlackBerry devices, iOS devices, and Android devices.
+
+==== Service: `BlackBerry MDS Connection Service`
+Provides a communication channel for BlackBerry devices to access application servers and content servers on your organization's intranet or on the Internet.
+
+==== Service: `BlackBerry Secure Connect Service`
+Maintains a connection through the BlackBerry Infrastructure with the BES10 Client on iOS devices and Android devices.
+
+==== Service: `BlackBerry Web Services`
+An add-on to the Universal Device Service that contains administrative APIs that are exposed as web services.
+
+==== Service: `BlackBerry Work Connect Notification Service`
+Sends notifications to iOS devices when new email messages and calendar entries are available in the Work Connect app.
+
+==== Service: `Enterprise Management Web Service`
+Sends profiles, applications, IT policies, and IT administration commands to BlackBerry devices.
+
+=== BlackBerry TCP ports
+
+==== TCP Port: Admin Service (HTTP)
+This component monitor tests the ability of a BES Admin service to accept incoming sessions by HTTP.
+By default it monitors TCP port `38180`.
+
+.Monitoring with HTTP in `poller-configuration.xml`
+[source, xml]
+----
+<service name="HTTP-BlackBerry-Admin-Service" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="3"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="38180"/>
+    <parameter key="host-name" value="bb-admin-service"/>
+    <parameter key="response" value="200-202,299"/>
+</service>
+
+<monitor service="HTTP-BlackBerry-Admin-Service" class-name="org.opennms.netmgt.poller.monitors.HttpMonitor"/>
+----
+
+==== TCP Port: Admin Service (HTTPS)
+This component monitor tests the ability of a BES Admin service to accept incoming sessions by HTTPS.
+By default it monitors TCP port `38443`.
+
+.Monitoring HTTPS in `poller-configuration.xml`
+[source, xml]
+----
+<service name="HTTPS-BlackBerry-Admin-Service" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="3"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="38443"/>
+    <parameter key="host-name" value="bb-admin-service"/>
+    <parameter key="response" value="200-202,299"/>
+</service>
+
+<monitor service="HTTPS-BlackBerry-Admin-Service" class-name="org.opennms.netmgt.poller.monitors.HttpsMonitor"/>
+----
+
+==== TCP Port: Licensing Server
+This component monitor tests the ability of a BES Licensing service to accept incoming sessions by HTTPS.
+By default it monitors TCP port `3333`.
+
+.Monitoring connectivity to Licensing Server in `poller-configuration.xml`
+[source, xml]
+----
+<service name="TCP-BlackBerry-Licensing-Server" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="3" />
+    <parameter key="banner" value="*" />
+    <parameter key="port" value="3333" />
+    <parameter key="timeout" value="3000" />
+    <parameter key="rrd-repository" value="/var/lib/opennms/rrd/response" />
+    <parameter key="rrd-base-name" value="bb-licensing" />
+    <parameter key="ds-name" value="bb-licensing" />
+</service>
+
+<monitor service="TCP-BlackBerry-Licensing-Server" class-name="org.opennms.netmgt.poller.monitors.TcpMonitor"/>
+----
+
+==== TCP Port: Universal Device Service
+This component monitor tests the ability of a BES Universal Device service to accept incoming sessions by HTTPS.
+By default it monitors TCP port `6443`.
+
+.Monitoring connectivity to Universal Device Service in `poller-configuration.xml`
+[source, xml]
+----
+<service name="TCP-BlackBerry-Universal-Device-Service" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="3" />
+    <parameter key="banner" value="*" />
+    <parameter key="port" value="6443" />
+    <parameter key="timeout" value="3000" />
+    <parameter key="rrd-repository" value="/var/lib/opennms/rrd/response" />
+    <parameter key="rrd-base-name" value="bb-uds" />
+    <parameter key="ds-name" value="bb-uds" />
+</service>
+
+<monitor service="TCP-BlackBerry-Universal-Device-Service" class-name="org.opennms.netmgt.poller.monitors.TcpMonitor"/>
+----
+
+==== TCP Port: BlackBerry Management Studio
+This component monitor tests the ability of a BES Management Studio to accept incoming sessions by HTTPS.
+By default it monitors TCP port `7443`.
+
+.Monitoring connectivity to Management Studio in `poller-configuration.xml`
+[source, xml]
+----
+<service name="TCP-BlackBerry-Management-Studio" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="3" />
+    <parameter key="banner" value="*" />
+    <parameter key="port" value="7443" />
+    <parameter key="timeout" value="3000" />
+    <parameter key="rrd-repository" value="/var/lib/opennms/rrd/response" />
+    <parameter key="rrd-base-name" value="bb-mgmt-stdio" />
+    <parameter key="ds-name" value="bb-mgmt-stdio" />
+</service>
+
+<monitor service="TCP-BlackBerry-Management-Studio" class-name="org.opennms.netmgt.poller.monitors.TcpMonitor"/>
+----
