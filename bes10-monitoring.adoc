@@ -68,7 +68,9 @@ As in other implementations of the _Kerberos_ protocol, the _KDC_ is a single pr
   When clients want access to a computer, they contact the ticket-granting service in the target computer's domain, present a TGT, and ask for a ticket to the computer.
   The ticket can be reused until it expires, but the first access to any computer always requires a trip to the ticket-granting service in the target computer's account domain.
 
-Further details: http://msdn.microsoft.com/en-us/library/windows/desktop/aa378170%28v=vs.85%29.aspx[Technet: Key Distribution Center]
+*Further details:*
+
+- http://msdn.microsoft.com/en-us/library/windows/desktop/aa378170%28v=vs.85%29.aspx[Technet: Key Distribution Center]
 
 [source, xml]
 ----
@@ -99,7 +101,10 @@ The Windows Time service (`W32Time`) synchronizes the time between domain contro
 <monitor service="Win32-Time-Service" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
-==== ISM
+==== Intersite Messaging
+Intersite Messaging is required for _SMTP_ intersite replication and for site coverage calculations.
+If the forest functional level is _Windows 2000_, _Intersite Messaging_ is also required for intersite topology generation.
+
 This service enables messages to be exchanged between computers running _Windows Server sites_.
 This service is used for mail-based replication between sites.
 _Active Directory_ includes support for replication between sites by using _SMTP over IP transport_.
@@ -107,6 +112,11 @@ _SMTP_ support is provided by the _SMTP_ service, which is a component of _IIS_.
 The set of transports used for communication between sites must be extensible; therefore, each transport is defined in a separate add-in dynamic link library (DLL).
 These add-in _DLLs_ are loaded into the _ISM service_, which runs on all _Domain Controllers_ that are candidates for performing communication between sites.
 The _ISM service_ directs send requests and receive requests to the appropriate transport add-in DLLs, which then route the messages to the ISM service on the destination computer.
+
+*Further details:*
+
+- http://technet.microsoft.com/en-us/library/cc775549%28v=ws.10%29.aspx[Technet: What Is Active Directory Replication Topology]
+- http://technet.microsoft.com/en-us/library/ff799055.aspx[Technet: http://technet.microsoft.com/en-us/library/ff799055.aspx]
 
 [source, xml]
 ----
