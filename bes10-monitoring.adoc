@@ -163,6 +163,7 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
 ----
 
 === Windows Events throught Traps
+The following Event IDs can be forwarded to OpenNMS using the Microsoft SNMP Event Translator (`evntwin.exe`).
 
 [options="header"]
 |========================
