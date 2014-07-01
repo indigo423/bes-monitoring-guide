@@ -1,5 +1,143 @@
 = Monitoring Black Berry 10
 
+== Basic network availability
+
+=== ICMP
+
+=== DNS name resolution
+
+[source, xml]
+----
+<service name="DNS-Resolution-v6" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="2000"/>
+    <parameter key="resolution-type" value="v4"/>
+    <parameter key="rrd-repository" value="/opt/opennms/share/rrd/response"/>
+    <parameter key="rrd-base-name" value="dns-res-v6"/>
+    <parameter key="ds-name" value="dns-res-v6"/>
+</service>
+<service name="DNS-Resolution-v6" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="2000"/>
+    <parameter key="resolution-type" value="v6"/>
+    <parameter key="rrd-repository" value="/opt/opennms/share/rrd/response"/>
+    <parameter key="rrd-base-name" value="dns-res-v6"/>
+    <parameter key="ds-name" value="dns-res-v6"/>
+</service>
+
+<monitor service="DNS-Resolution-v4" class-name="org.opennms.netmgt.poller.monitors.DNSResolutionMonitor" />
+<monitor service="DNS-Resolution-v6" class-name="org.opennms.netmgt.poller.monitors.DNSResolutionMonitor" />
+----
+== Baselining basic system metrics
+Requirements for default system monitoring is installed and configured Windows SNMP agent + SNMP informant Standard.
+http://www.snmp-informant.com/[SNMP Informant] is required to monitor Windows CPU utiliziation correctly.
+Restart of the Windows System reogranises the CPU number SNMP index on Multi-Core systems.
+
+=== Hard disk
+
+=== CPU
+
+.Category based thresholding configuration in `threshd-configuration.xml`
+[source, xml]
+----
+<package name="TH-DISK-80">
+    <filter>catincTH-DISK-80</filter>
+    <include-range begin="1.1.1.1" end="254.254.254.254"/>
+    <include-range begin="::1" end="ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff" />
+    <service name="SNMP" interval="300000" user-defined="false" status="on">
+        <parameter key="thresholding-group" value="TH-DISK-80"/>
+    </service>
+</package>
+
+<package name="TH-CPU-90">
+    <filter>catincTH-CPU-90</filter>
+    <include-range begin="1.1.1.1" end="254.254.254.254"/>
+    <include-range begin="::1" end="ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff" />
+    <service name="SNMP" interval="300000" user-defined="false" status="on">
+        <parameter key="thresholding-group" value="TH-CPU-90"/>
+    </service>
+</package>
+----
+
+
+.Configuration of Microsoft Windows and Linux CPU thresholds
+[source, xml]
+----
+<group name="TH-CPU-90" rrdRepository="/var/lib/opennms/rrd/snmp/">
+    <threshold description="cpu high threshold 90.0 rearmed 70.0 (Windows Single)"
+               type="high" ds-type="sinfCpuInstance"
+               value="90.0" rearm="70.0" trigger="5"
+               ds-label="sinfCpuInstance"
+               triggeredUEI="uei.opennms.org/threshold/windows/cpu/high/major/exceeded"
+               rearmedUEI="uei.opennms.org/threshold/windows/cpu/high/major/rearmed"
+               filterOperator="or" ds-name="sinfCpuPctProcTime">
+        <resource-filter field="sinfCpuInstance">^\d+</resource-filter>
+    </threshold>
+    <threshold description="cpu high threshold 90.0 rearmed 70.0 (Windows Total)"
+               type="high" ds-type="sinfCpuInstance"
+               value="90.0" rearm="70.0" trigger="2"
+               ds-label="sinfCpuInstance"
+               triggeredUEI="uei.opennms.org/threshold/windows/cpu/high/major/exceeded"
+               rearmedUEI="uei.opennms.org/threshold/windows/cpu/high/major/rearmed"
+               filterOperator="or" ds-name="sinfCpuPctProcTime">
+        <resource-filter field="sinfCpuInstance">^_Total</resource-filter>
+    </threshold>
+    <expression description="cpu high threshold 90.0 rearmed 70.0 (Unix Total)"
+                type="high" ds-type="node"
+                value="90.0" rearm="70.0"
+                trigger="2"
+                triggeredUEI="uei.opennms.org/threshold/unix/cpu/high/major/exceeded"
+                rearmedUEI="uei.opennms.org/threshold/unix/cpu/high/major/rearmed"
+                filterOperator="or"
+                expression="(CpuRawUser+CpuRawNice+CpuRawSystem) / (CpuRawUser+CpuRawNice+CpuRawSystem+CpuRawIdle) *100"/>
+</group>
+----
+
+=== Events for OpenNMS Web UI
+
+[source, xml]
+----
+<events>
+    <event>
+        <uei>uei.opennms.org/threshold/windows/cpu/high/major/exceeded</uei>
+        <event-label>User-defined custom high threshold exceeded event for windows-cpu [Major]</event-label>
+        <descr>
+            &lt;p&gt;High threshold exceeded for %service% datasource %parm[ds]% on interface %interface% for node %nodelabel% (nodeId %nodeid%).&lt;/p&gt;&lt;br&gt;
+            &lt;table style='width:50%; white-space: nowrap;'&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Data Source&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[ds]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Resource Label&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[label]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Resource Instance&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[instance]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Current Metric Value&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[value]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Threshold Value&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[threshold]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Rearm Value&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[rearm]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Trigger Value&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[trigger]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;/table&gt; &lt;/br&gt;&lt;p&gt;All parameters: %parm[all]%&lt;/p&gt;
+        </descr>
+        <logmsg dest="logndisplay">&lt;b&gt;&lt;a href='graph/results.htm?resourceId=node[%nodeid%].sinfCpuInstance[%parm[instance]%]&amp;reports=all'&gt;WINDOWS-CPU&lt;/b&gt;&lt;/a&gt; HIGH threshold &lt;b&gt;%parm[threshold]%&lt;/b&gt; exceeded with &lt;font color=#cc0000&gt;&lt;b&gt;%parm[value]%&lt;/b&gt;&lt;/font&gt;, on instance &lt;b&gt;%parm[label]%&lt;/b&gt;, for metric %parm[ds]%, on node %nodelabel%.</logmsg>
+        <severity>Major</severity>
+        <alarm-data auto-clean="false" alarm-type="1" reduction-key="%uei%:%dpname%:%nodeid%:%interface%:%parm[ds]%:%parm[threshold]%:%parm[trigger]%:%parm[rearm]%:%parm[label]%"/>
+    </event>
+    <event>
+        <uei>uei.opennms.org/threshold/unix/cpu/high/major/exceeded</uei>
+        <event-label>User-defined custom high threshold exceeded event for unix-cpu [Major]</event-label>
+        <descr>
+            &lt;p&gt;High threshold exceeded for %service% datasource %parm[ds]% on interface %interface% for node %nodelabel% (nodeId %nodeid%).&lt;/p&gt;&lt;br&gt;
+            &lt;table style='width:50%; white-space: nowrap;'&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Data Source&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[ds]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Resource Label&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[label]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Resource Instance&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[instance]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Current Metric Value&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[value]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Threshold Value&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[threshold]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Rearm Value&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[rearm]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;&lt;b&gt;Trigger Value&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%parm[trigger]%&lt;/td&gt;&lt;/tr&gt;
+            &lt;/table&gt; &lt;/br&gt;&lt;p&gt;All parameters: %parm[all]%&lt;/p&gt;
+        </descr>
+        <logmsg dest="logndisplay">&lt;b&gt;&lt;a href='graph/results.htm?resourceId=node[%nodeid%].nodeSnmp[]&amp;reports=netsnmp.cpuStatsFull&amp;reports=netsnmp.cpuUsageFull'&gt;UNIX-CPU&lt;/b&gt;&lt;/a&gt; HIGH threshold &lt;b&gt;%parm[threshold]%&lt;/b&gt; exceeded with &lt;font color=#cc0000&gt;&lt;b&gt;%parm[value]%&lt;/b&gt;&lt;/font&gt;, for metric %parm[ds]%, on node %nodelabel%.</logmsg>
+        <severity>Major</severity>
+        <alarm-data auto-clean="false" alarm-type="1" reduction-key="%uei%:%dpname%:%nodeid%:%interface%:%parm[ds]%:%parm[threshold]%:%parm[trigger]%:%parm[rearm]%:%parm[label]%"/>
+    </event>
+</events>
+----
 == Microsoft Active Directory Essential Services
 
 === Windows Services
