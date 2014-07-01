@@ -1,0 +1,34 @@
+= Monitoring Black Berry 10
+
+== Microsoft Active Directory Essential Services
+
+=== Windows Services
+
+[source, xml]
+----
+<service name="Win32-Net-Logon" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="Task Scheduler"/>
+</service>
+
+<monitor service="Win32-Net-Logon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+
+<service name="Win32-K" interval="300000" user-defined="false" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="Task Scheduler"/>
+</service>
+
+<monitor service="Win32-Net-Logon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+
+
+
+----
+
+FRS, Net Logon, KDC, W32Time, ISMSERV
+
+=== Shares for Net-Logon
+SYSVOL
