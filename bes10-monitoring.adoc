@@ -174,3 +174,15 @@ The following Event IDs can be forwarded to OpenNMS using the Microsoft SNMP Eve
 | `1824`   | Error | Active Directory Windows 2000 and Windows Server 2003 - Active Directory General | The Inter-Site Messaging Service cannot perform a requested LDAP bind operation
 | `1823`   | Error | Active Directory Windows 2000 and Windows Server 2003 - Active Directory General | The Inter-Site Messaging Service requested to abandon an LDAP notification message
 |========================
+
+== BlackBerry Device Services
+
+Resource: http://docs.blackberry.com/en/admin/deliverables/52733/BlackBerry_Enterprise_Service_10_version_10.1_Configuration_Guide-en.pdf[BES 10.1 Configuration Guide]
+
+=== BlackBerry Controller
+
+=== BlackBerry Dispatcher
+
+=== BlackBerry Router
+
+=== BlackBerry MDS Connection Service
