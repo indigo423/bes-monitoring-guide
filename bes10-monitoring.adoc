@@ -6,7 +6,7 @@
 
 === DNS name resolution
 
-[source, xml]
+[source,xml]
 ----
 <service name="DNS-Resolution-v6" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
@@ -38,7 +38,7 @@ Restart of the Windows System reogranises the CPU number SNMP index on Multi-Cor
 === CPU
 
 .Category based thresholding configuration in `threshd-configuration.xml`
-[source, xml]
+[source,xml]
 ----
 <package name="TH-DISK-90">
     <filter>catincTH-DISK-90</filter>
@@ -61,7 +61,7 @@ Restart of the Windows System reogranises the CPU number SNMP index on Multi-Cor
 
 
 .Configuration of Microsoft Windows and Linux CPU thresholds
-[source, xml]
+[source,xml]
 ----
 <group name="TH-CPU-90" rrdRepository="/var/lib/opennms/rrd/snmp/">
     <threshold description="cpu high threshold 90.0 rearmed 70.0 (Windows Single)"
@@ -93,7 +93,7 @@ Restart of the Windows System reogranises the CPU number SNMP index on Multi-Cor
 ----
 
 .Configuration for generic hard disk thresholds
-[source, xml]
+[source,xml]
 ----
 </group>
     <group name="TH-DISK-90" rrdRepository="/var/lib/opennms/rrd/snmp/">
@@ -112,7 +112,8 @@ Restart of the Windows System reogranises the CPU number SNMP index on Multi-Cor
 
 === Events for OpenNMS Web UI
 
-[source, xml]
+.Event configuration for thresholds in `Threshold.events.xml`
+[source,xml]
 ----
 <events>
     <event>
@@ -187,7 +188,8 @@ Performs registration of `SRV` Records every 24 hours depending on the version o
 Registers the `SRV` Records for a site where there is no _Domain Controller_.
 This is called _Site Coverege_.
 
-[source, xml]
+.Windows service monitor for NetLogon in `poller-configuration.xml`
+[source,xml]
 ----
 <service name="Win32-NetLogon" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
@@ -206,7 +208,9 @@ Because _FRS_ is a multimaster replication service, any server that participates
 In addition, _FRS_ can resolve file and folder conflicts to make data consistent among servers.
 
 Further details: http://technet.microsoft.com/en-us/library/cc781582%28v=ws.10%29.aspx[Technet: What Is FRS?]
-[source, xml]
+
+.Windows service monitor for ???-FRS-Service-Name??? in `poller-configuration.xml`
+[source,xml]
 ----
 <service name="Win32-???SERVICE-NAME???" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
@@ -246,7 +250,8 @@ As in other implementations of the _Kerberos_ protocol, the _KDC_ is a single pr
 
 - http://msdn.microsoft.com/en-us/library/windows/desktop/aa378170%28v=vs.85%29.aspx[Technet: Key Distribution Center]
 
-[source, xml]
+.Windows service monitor for ???-KDC-Service-Name??? in `poller-configuration.xml`
+[source,xml]
 ----
 <service name="Win32-???SERVICE-NAME???" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
@@ -263,7 +268,8 @@ The _Kerberos_ authentication protocol gets its time from the _Domain Controller
 If a time skew of greater than five minutes exists between domain controllers, _Kerberos_ authentication fails, which causes problems in _Active Directory_.
 The Windows Time service (`W32Time`) synchronizes the time between domain controllers, which prevents time skews from occurring.
 
-[source, xml]
+.Windows service monitor for Win32 Time Service in `poller-configuration.xml`
+[source,xml]
 ----
 <service name="Win32-Time-Service" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
@@ -292,7 +298,8 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
 - http://technet.microsoft.com/en-us/library/cc775549%28v=ws.10%29.aspx[Technet: What Is Active Directory Replication Topology]
 - http://technet.microsoft.com/en-us/library/ff799055.aspx[Technet: http://technet.microsoft.com/en-us/library/ff799055.aspx]
 
-[source, xml]
+.Windows service monitor for ???-ISM-Service-Name??? in `poller-configuration.xml`
+[source,xml]
 ----
 <service name="Win32-???SERVICE-NAME???" interval="30000" user-defined="true" status="on">
     <parameter key="retry" value="2"/>
@@ -306,7 +313,8 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
 
 === Active Directory specific shared folders
 
-[source, xml]
+.CIFS monitoring for SYSVOL-Share in `poller-configuration.xml`
+[source,xml]
 ----
 <service name="CIFS-Share-SYSVOL" interval="30000" user-defined="true" status="on">
     <parameter key="retry" value="1" />
@@ -321,10 +329,10 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
 <monitor service="CIFS-Share-SYSVOL" class-name="org.opennms.netmgt.poller.monitors.JCifsMonitor" />
 ----
 
-.Monitor for CIFS Share NetLogon in `poller-configuration.xml`
-[source, xml]
+.CIFS monitoring for NetLogon-Share in `poller-configuration.xml`
+[source,xml]
 ----
-<service name="CIFS-Share-NETLOGON" interval="30000" user-defined="true" status="on">
+<service name="CIFS-Share-NetLogon" interval="30000" user-defined="true" status="on">
     <parameter key="retry" value="1" />
     <parameter key="timeout" value="3000" />
     <parameter key="domain" value="contoso" />
@@ -334,12 +342,13 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
     <parameter key="mode" value="path_exist" />
 </service>
 
-<monitor service="CIFS-Share-NETLOGON" class-name="org.opennms.netmgt.poller.monitors.JCifsMonitor" />
+<monitor service="CIFS-Share-NetLogon" class-name="org.opennms.netmgt.poller.monitors.JCifsMonitor" />
 ----
 
 === Windows Events throught Traps
 The following Event IDs can be forwarded to OpenNMS using the Microsoft SNMP Event Translator (`evntwin.exe`).
 
+.Microsoft Event-IDs to be forwarded as SNMP Traps for Active Directory errors
 [options="header"]
 |========================
 | Event ID | Type  | Rule Group                                                                       | Description
@@ -368,6 +377,7 @@ Exchange 2013 Management Pack Health Sets
 
 - http://www.oidview.com/mibs/3530/BLACKBERRYSERVERMIB-SMIV2.html[BlackBerry Server MIB-SMI v2]
 
+.SNMP OIDS monitoring SRP health state
 [options="header"]
 |========================
 | Name                                  | Description                                                                                                                               | OID
@@ -382,7 +392,8 @@ Exchange 2013 Management Pack Health Sets
 
 ==== SRP Connected State
 
-[source, xml]
+.SNMP monitor test _BES_ connection state to wireless network
+[source,xml]
 ----
 <service name="SRP-Connected-State" interval="300000" user-defined="false" status="on">
     <parameter key="oid" value="1.3.6.1.4.1.3530.5.25.1.10"/>
@@ -391,8 +402,71 @@ Exchange 2013 Management Pack Health Sets
 <monitor service="SRP-Connected-State" class-name="org.opennms.netmgt.poller.monitors.SnmpMonitor"/>
 ----
 
+==== SRP reconnect fail and success
+
+.Performance data collection for SRP reconnects in `blackberry.xml`
+[source,xml]
+----
+<?xml version="1.0"?>
+<datacollection-group name="BlackBerry">
+    <group name="besSysHealthSrp" ifType="ignore">
+        <mibObj oid="1.3.6.1.4.1.3530.5.25.1" instance="12" alias="besSrpReconSucc" type="integer" />
+        <mibObj oid="1.3.6.1.4.1.3530.5.25.1" instance="13" alias="besSrpReconFail" type="integer" />
+        <mibObj oid="1.3.6.1.4.1.3530.5.25.1" instance="14" alias="besSrpTotNoCon" type="timeticks" />
+    </group>
+    <systemDef name="BlackBerry Enterprise Server">
+        <sysoidMask>.1.3.6.1.4.1.3530.</sysoidMask>
+        <collect>
+            <includeGroup>beSysHealthSrp</includeGroup>
+        </collect>
+    </systemDef>
+</datacollection-group>
+----
+
+.Graph definition in `blackberry-graph.properties`
+[source,bash]
+----
+reports=bes.reconnect, \
+bes.notconnected
+
+report.bes.reconnect.name=BlackBerry Wireless Reconnect
+report.bes.reconnect.columns=besSrpReconSucc, besSrpReconFail
+report.bes.reconnect.type=nodeSnmp
+report.bes.reconnect.command=--title="BlackBerry Wireless Reconnect" \
+ --vertical-label="Number of Times" \
+ DEF:val1Avg={rrd1}:besSrpReconSucc:AVERAGE \
+ DEF:val1Min={rrd1}:besSrpReconSucc:MIN \
+ DEF:val1Max={rrd1}:besSrpReconSucc:MAX \
+ DEF:val2Avg={rrd2}:besSrpReconFail:AVERAGE \
+ DEF:val2Min={rrd2}:besSrpReconFail:MIN \
+ DEF:val2Max={rrd2}:besSrpReconFail:MAX \
+ AREA:val1Avg#73d216:"Successful" \
+ GPRINT:val1Avg:AVERAGE:"Avg \\: %10.2lf %s" \
+ GPRINT:val1Min:MIN:"Min \\: %10.2lf %s" \
+ GPRINT:val1Max:MAX:"Max \\: %10.2lf %s\\n" \
+ STACK:val2Avg#cc0000:"Failed   " \
+ GPRINT:val2Avg:AVERAGE:"Avg \\: %10.2lf %s" \
+ GPRINT:val2Min:MIN:"Min \\: %10.2lf %s" \
+ GPRINT:val2Max:MAX:"Max \\: %10.2lf %s\\n"
+
+report.bes.notconnected.name=Total number of seconds not connected
+report.bes.notconnected.columns=besSrpTotNoCon
+report.bes.notconnected.type=nodeSnmp
+report.bes.notconnected.command=--title="Total Seconds Not Connected to Wireless" \
+ --vertical-label="Total Seconds" \
+ DEF:val1Avg={rrd1}:besSrpTotNoCon:AVERAGE \
+ DEF:val1Min={rrd1}:besSrpTotNoCon:MIN \
+ DEF:val1Max={rrd1}:besSrpTotNoCon:MAX \
+ AREA:val1Avg#f57900 \
+ LINE2:val1Avg#ce5c00:"Total Seconds" \
+ GPRINT:val1Avg:AVERAGE:"Avg \\: %7.3lf%s" \
+ GPRINT:val1Min:MIN:"Min \\: %7.3lf%s" \
+ GPRINT:val1Max:MAX:"Max \\: %7.3lf%s\\n"
+----
+
 === BlackBerry Windows Services
 
+.Microsoft Windows services to monitor for _BES_
 [options="header"]
 |========================
 | Service name                                                | Description
@@ -410,6 +484,96 @@ Exchange 2013 Management Pack Health Sets
 | `Enterprise Management Web Service`                         | Sends profiles, applications, IT policies, and IT administration commands to BlackBerry devices.
 |========================
 
+.Windows service monitor definition in `poller-configuration.xml`
+[source,xml]
+----
+<service name="Win32-BB-Admin-Console" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="Administration Console"/>
+</service>
+<service name="Win32-BBAS-Application-Server" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="BlackBerry Administration Service - Application Server"/>
+</service>
+<service name="Win32-BBAS-Native-Code-Container" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="BlackBerry Administration Service - Native Code Container"/>
+</service>
+<service name="Win32-BB-Controller" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="BlackBerry Controller"/>
+</service>
+<service name="Win32-BB-Dispatcher" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="BlackBerry Dispatcher"/>
+</service>
+<service name="Win32-BB-Licensing" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="BlackBerry Licensing Service"/>
+</service>
+<service name="Win32-BB-Management-Studio" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="BlackBerry Management Studio"/>
+</service>
+<service name="Win32-BB-MDS-Connection" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="BlackBerry MDS Connection Service"/>
+</service>
+<service name="Win32-BB-Secure-Connection" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="BlackBerry Secure Connect Service"/>
+</service>
+<service name="Win32-BB-Web-Services" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="BlackBerry Web Services"/>
+</service>
+<service name="Win32-BB-Work-Connect-Notification" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="BlackBerry Work Connect Notification Service"/>
+</service>
+<service name="Win32-BB-Enterprise-Management-Web-Service" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="2"/>
+    <parameter key="timeout" value="3000"/>
+    <parameter key="port" value="161"/>
+    <parameter key="service-name" value="Enterprise Management Web Service"/>
+</service>
+
+<monitor service="Win32-BB-Admin-Console" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BBAS-Application-Server" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BBAS-Native-Code-Container" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BB-Controller" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BB-Dispatcher" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BB-Licensing" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BB-Management-Studio" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BB-MDS-Connection" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BB-Secure-Connection" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BB-Web-Services" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BB-Work-Connect-Notification" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BB-Enterprise-Management-Web-Service" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+----
+
 === BlackBerry HTTP and HTTPS based services
 
 ==== HTTP access to Admin Service
@@ -417,7 +581,7 @@ This component monitor tests the ability of a _BES Admin service_ to accept inco
 By default port is `38180`.
 
 .Monitoring with HTTP in `poller-configuration.xml`
-[source, xml]
+[source,xml]
 ----
 <service name="HTTP-BlackBerry-Admin-Service" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="3"/>
@@ -434,7 +598,7 @@ This component monitor tests the ability of a _BES Admin service_ to accept inco
 By default port is `38443`.
 
 .Monitoring HTTPS in `poller-configuration.xml`
-[source, xml]
+[source,xml]
 ----
 <service name="HTTPS-BlackBerry-Admin-Service" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="3"/>
@@ -451,7 +615,7 @@ This component monitor tests the ability of a _BES Licensing service_ to accept 
 By default port is `3333`.
 
 .Monitoring connectivity to Licensing Server in `poller-configuration.xml`
-[source, xml]
+[source,xml]
 ----
 <service name="HTTPS-BlackBerry-Licensing-Server" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="3"/>
@@ -468,7 +632,7 @@ This component monitor tests the ability of a _BES Universal Device service_ to 
 By default port is `6443`.
 
 .Monitoring connectivity to Universal Device Service in `poller-configuration.xml`
-[source, xml]
+[source,xml]
 ----
 <service name="HTTPS-BlackBerry-Universal-Device-Service" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="3"/>
@@ -485,7 +649,7 @@ This component monitor tests the ability of a _BES Management Studio_ to accept 
 By default port is `7443`.
 
 .Monitoring connectivity to Management Studio in `poller-configuration.xml`
-[source, xml]
+[source,xml]
 ----
 <service name="HTTPS-BlackBerry-Management-Studio" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="3"/>
