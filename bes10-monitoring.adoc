@@ -21,6 +21,7 @@ This is called Site Coverege.
     <parameter key="port" value="161"/>
     <parameter key="service-name" value="NetLogon"/>
 </service>
+
 <monitor service="Win32-NetLogon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
@@ -47,4 +48,33 @@ This is called Site Coverege.
 FRS, Net Logon, KDC, W32Time, ISMSERV
 
 === Shares for Net-Logon
-SYSVOL
+
+[source, xml]
+----
+<service name="CIFS-Share-SYSVOL" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="1" />
+    <parameter key="timeout" value="3000" />
+    <parameter key="domain" value="contoso" />
+    <parameter key="username" value="MonitoringUser" />
+    <parameter key="password" value="MonitoringPassword" />
+    <parameter key="path" value="SYSLOG" />
+    <parameter key="mode" value="path_exist" />
+</service>
+
+<monitor service="CIFS-Share-SYSVOL" class-name="org.opennms.netmgt.poller.monitors.JCifsMonitor" />
+----
+
+[source, xml]
+----
+<service name="CIFS-Share-NETLOGON" interval="30000" user-defined="true" status="on">
+    <parameter key="retry" value="1" />
+    <parameter key="timeout" value="3000" />
+    <parameter key="domain" value="contoso" />
+    <parameter key="username" value="MonitoringUser" />
+    <parameter key="password" value="MonitoringPassword" />
+    <parameter key="path" value="NETLOGON" />
+    <parameter key="mode" value="path_exist" />
+</service>
+
+<monitor service="CIFS-Share-NETLOGON" class-name="org.opennms.netmgt.poller.monitors.JCifsMonitor" />
+----
