@@ -34,22 +34,22 @@ In addition, _FRS_ can resolve file and folder conflicts to make data consistent
 Further details: http://technet.microsoft.com/en-us/library/cc781582%28v=ws.10%29.aspx[Technet: What Is FRS?]
 [source, xml]
 ----
-<service name="Win32-K" interval="300000" user-defined="false" status="on">
+<service name="Win32-???SERVICE-NAME???" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
     <parameter key="timeout" value="3000"/>
     <parameter key="port" value="161"/>
     <parameter key="service-name" value="Task Scheduler"/>
 </service>
 
-<service name="Win32-K" interval="300000" user-defined="false" status="on">
+<service name="Win32-???SERVICE-NAME???" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
     <parameter key="timeout" value="3000"/>
     <parameter key="port" value="161"/>
     <parameter key="service-name" value="Task Scheduler"/>
 </service>
 
-<monitor service="Win32-Net-Logon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
-<monitor service="Win32-Time" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-???SERVICE-NAME???" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-???SERVICE-NAME???" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
 ==== Key Distribution Center
@@ -74,14 +74,14 @@ As in other implementations of the _Kerberos_ protocol, the _KDC_ is a single pr
 
 [source, xml]
 ----
-<service name="Win32-K" interval="300000" user-defined="false" status="on">
+<service name="Win32-???SERVICE-NAME???" interval="300000" user-defined="false" status="on">
     <parameter key="retry" value="2"/>
     <parameter key="timeout" value="3000"/>
     <parameter key="port" value="161"/>
     <parameter key="service-name" value="Task Scheduler"/>
 </service>
 
-<monitor service="Win32-Net-Logon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-???SERVICE-NAME???" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
 ==== Time Synchronization
@@ -120,14 +120,14 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
 
 [source, xml]
 ----
-<service name="Win32-ISM-Service" interval="30000" user-defined="true" status="on">
+<service name="Win32-???SERVICE-NAME???" interval="30000" user-defined="true" status="on">
     <parameter key="retry" value="2"/>
     <parameter key="timeout" value="3000"/>
     <parameter key="port" value="161"/>
     <parameter key="service-name" value="W32Time"/>
 </service>
 
-<monitor service="Win32-ISM-Service" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-???SERVICE-NAME???" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
 === Active Directory specific shared folders
@@ -161,3 +161,15 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
 
 <monitor service="CIFS-Share-NETLOGON" class-name="org.opennms.netmgt.poller.monitors.JCifsMonitor" />
 ----
+
+=== Windows Events throught Traps
+
+[options="header"]
+|========================
+| Event ID | Type  | Rule Group                                                                       | Description
+| `1407`   | Error | Active Directory Windows 2000 and Windows Server 2003 - Active Directory General | An Intersite Messaging service request to modify an LDAP object failed
+| `1238`   | Error | Active Directory Windows 2000 and Windows Server 2003 - Active Directory General | LDAP agent cannot open security provider
+| `1210`   | Error | Active Directory Windows 2000 and Windows Server 2003 - Active Directory General | LDAP connection closed because maximum connections were exceeded
+| `1824`   | Error | Active Directory Windows 2000 and Windows Server 2003 - Active Directory General | The Inter-Site Messaging Service cannot perform a requested LDAP bind operation
+| `1823`   | Error | Active Directory Windows 2000 and Windows Server 2003 - Active Directory General | The Inter-Site Messaging Service requested to abandon an LDAP notification message
+|========================
