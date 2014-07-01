@@ -191,14 +191,11 @@ This is called _Site Coverege_.
 .Windows service monitor for NetLogon in `poller-configuration.xml`
 [source,xml]
 ----
-<service name="Win32-NetLogon" interval="300000" user-defined="false" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
-    <parameter key="service-name" value="NetLogon"/>
+<service name="Win32-Netlogon" interval="300000" user-defined="false" status="on">
+    <parameter key="service-name" value="Netlogon"/>
 </service>
 
-<monitor service="Win32-NetLogon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-Netlogon" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
 ==== Service: File Replication Service (FRS)
@@ -212,22 +209,11 @@ Further details: http://technet.microsoft.com/en-us/library/cc781582%28v=ws.10%2
 .Windows service monitor for ???-FRS-Service-Name??? in `poller-configuration.xml`
 [source,xml]
 ----
-<service name="Win32-???SERVICE-NAME???" interval="300000" user-defined="false" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
-    <parameter key="service-name" value="Task Scheduler"/>
+<service name="Win32-File-Replication" interval="300000" user-defined="false" status="on">
+    <parameter key="service-name" value="File Replication"/>
 </service>
 
-<service name="Win32-???SERVICE-NAME???" interval="300000" user-defined="false" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
-    <parameter key="service-name" value="Task Scheduler"/>
-</service>
-
-<monitor service="Win32-???SERVICE-NAME???" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
-<monitor service="Win32-???SERVICE-NAME???" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-File-Replication" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
 ==== Key Distribution Center
@@ -253,14 +239,11 @@ As in other implementations of the _Kerberos_ protocol, the _KDC_ is a single pr
 .Windows service monitor for ???-KDC-Service-Name??? in `poller-configuration.xml`
 [source,xml]
 ----
-<service name="Win32-???SERVICE-NAME???" interval="300000" user-defined="false" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
-    <parameter key="service-name" value="Task Scheduler"/>
+<service name="Win32-Kerberos-Key-Distribution-Center" interval="300000" user-defined="false" status="on">
+    <parameter key="service-name" value="Kerberos Key Distribution Center"/>
 </service>
 
-<monitor service="Win32-???SERVICE-NAME???" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-Kerberos-Key-Distribution-Center" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
 ==== Time Synchronization
@@ -272,10 +255,7 @@ The Windows Time service (`W32Time`) synchronizes the time between domain contro
 [source,xml]
 ----
 <service name="Win32-Time-Service" interval="300000" user-defined="false" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
-    <parameter key="service-name" value="W32Time"/>
+    <parameter key="service-name" value="Windows Time"/>
 </service>
 
 <monitor service="Win32-Time-Service" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
@@ -301,14 +281,11 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
 .Windows service monitor for ???-ISM-Service-Name??? in `poller-configuration.xml`
 [source,xml]
 ----
-<service name="Win32-???SERVICE-NAME???" interval="30000" user-defined="true" status="on">
-    <parameter key="retry" value="2"/>
-    <parameter key="timeout" value="3000"/>
-    <parameter key="port" value="161"/>
-    <parameter key="service-name" value="W32Time"/>
+<service name="Win32-Intersite-Messaging" interval="30000" user-defined="true" status="on">
+    <parameter key="service-name" value="Intersite Messaging"/>
 </service>
 
-<monitor service="Win32-???SERVICE-NAME???" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-Intersite-Messaging" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
 === Active Directory specific shared folders
@@ -488,40 +465,46 @@ report.bes.notconnected.command=--title="Total Seconds Not Connected to Wireless
 [source,xml]
 ----
 <service name="Win32-BB-Admin-Console" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="Administration Console"/>
+    <parameter key="service-name" value="BES10 - Administration Console"/>
 </service>
 <service name="Win32-BBAS-Application-Server" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BlackBerry Administration Service - Application Server"/>
+    <parameter key="service-name" value="BES10 - BlackBerry Administration Service - Application Server"/>
 </service>
 <service name="Win32-BBAS-Native-Code-Container" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BlackBerry Administration Service - Native Code Container"/>
+    <parameter key="service-name" value="BES10 - BlackBerry Administration Service - Native Code"/>
 </service>
 <service name="Win32-BB-Controller" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BlackBerry Controller"/>
+    <parameter key="service-name" value="BES10 - BlackBerry Controller"/>
 </service>
 <service name="Win32-BB-Dispatcher" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BlackBerry Dispatcher"/>
+    <parameter key="service-name" value="BES10 - BlackBerry Dispatcher"/>
 </service>
 <service name="Win32-BB-Licensing" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BlackBerry Licensing Service"/>
+    <parameter key="service-name" value="BES10 - BlackBerry Licensing Service"/>
 </service>
 <service name="Win32-BB-Management-Studio" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BlackBerry Management Studio"/>
+    <parameter key="service-name" value="BES10 - BlackBerry Management Studio"/>
 </service>
 <service name="Win32-BB-MDS-Connection" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BlackBerry MDS Connection Service"/>
+    <parameter key="service-name" value="BES10 - BlackBerry MDS Connection Service"/>
 </service>
 <service name="Win32-BB-Secure-Connection" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BlackBerry Secure Connect Service"/>
+    <parameter key="service-name" value="BES10 - BlackBerry Secure Connect Service"/>
 </service>
 <service name="Win32-BB-Web-Services" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BlackBerry Web Services"/>
+    <parameter key="service-name" value="BES10 - BlackBerry Web Services"/>
 </service>
 <service name="Win32-BB-Work-Connect-Notification" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BlackBerry Work Connect Notification Service"/>
+    <parameter key="service-name" value="BES10 - BlackBerry Work Connect Notification Service"/>
 </service>
 <service name="Win32-BB-Enterprise-Management-Web-Service" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="Enterprise Management Web Service"/>
+    <parameter key="service-name" value="BES10 - Enterprise Management Web Service"/>
+</service>
+<service name="Win32-BB-Self-Service" interval="30000" user-defined="true" status="on">
+    <parameter key="service-name" value="BES10 - Self-Service"/>
+</service>
+<service name="Win32-BB-Device-Manager" interval="30000" user-defined="true" status="on">
+    <parameter key="service-name" value="BlackBerry Device Manager"/>
 </service>
 
 <monitor service="Win32-BB-Admin-Console" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
@@ -536,6 +519,8 @@ report.bes.notconnected.command=--title="Total Seconds Not Connected to Wireless
 <monitor service="Win32-BB-Web-Services" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 <monitor service="Win32-BB-Work-Connect-Notification" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 <monitor service="Win32-BB-Enterprise-Management-Web-Service" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BB-Self-Service" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
+<monitor service="Win32-BB-Device-Manager" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
 ----
 
 === BlackBerry HTTP and HTTPS based services
