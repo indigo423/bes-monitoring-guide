@@ -114,7 +114,7 @@
 
             <!-- ### BlackBerry BES 10 services -->
             <category>
-                <label><![CDATA[Microsoft Active Directory Services]]></label>
+                <label><![CDATA[BlackBerry Enterprise Services]]></label>
                 <comment>This category reflects the service availability for BlackBerry BES 10</comment>
                 <normal>99.99</normal>
                 <warning>97</warning>
