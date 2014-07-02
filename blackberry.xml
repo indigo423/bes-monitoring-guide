@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<datacollection-group name="BlackBerry">
+    <group name="besSysHealthSrp" ifType="ignore">
+        <mibObj oid="1.3.6.1.4.1.3530.5.25.1" instance="12" alias="besSrpReconSucc" type="integer" />
+        <mibObj oid="1.3.6.1.4.1.3530.5.25.1" instance="13" alias="besSrpReconFail" type="integer" />
+        <mibObj oid="1.3.6.1.4.1.3530.5.25.1" instance="14" alias="besSrpTotNoCon" type="timeticks" />
+    </group>
+    <group name="besDispatcher">
+        <mibObj oid=".1.3.6.1.4.1.3530.7.7.15.20.5.1.2.1.3" instance="0" alias="dispStatsProcThrds" type="integer" />
+        <mibObj oid=".1.3.6.1.4.1.3530.7.7.15.20.5.1.4.1.3" instance="0" alias="dispStatsProcQLen" type="integer" />
+    </group>
+    <group name="besDispatcher">
+        <mibObj oid=".1.3.6.1.4.1.3530.7.7.15.20.5.1.2.1.3" instance="0" alias="dispStatsProcThrds" type="integer" />
+        <mibObj oid=".1.3.6.1.4.1.3530.7.7.15.20.5.1.4.1.3" instance="0" alias="dispStatsProcQLen" type="integer" />
+        <mibObj oid=".1.3.6.1.4.1.3530.7.7.15.90.15.1.12.1.3.845303774" instance="0" alias="dispDbConNumTrans" type="integer" />
+        <mibObj oid=".1.3.6.1.4.1.3530.7.7.15.90.15.1.14.1.3.845303774" instance="0" alias="dispDbConAvgRspTime" type="integer" />
+        <mibObj oid=".1.3.6.1.4.1.3530.7.7.15.90.15.1.16.1.3.845303774" instance="0" alias="dispDbConStatsErrs" type="integer" />
+    </group>
+    <group name="besDispDbConnStats">
+        <mibObj oid=".1.3.6.1.4.1.3530.7.7.15.90.15.1.12.1.3" instance="845303774" alias="dispDbConNumTrans" type="integer" />
+        <mibObj oid=".1.3.6.1.4.1.3530.7.7.15.90.15.1.14.1.3" instance="845303774" alias="dispDbConAvgRspTime" type="integer" />
+        <mibObj oid=".1.3.6.1.4.1.3530.7.7.15.90.15.1.16.1.3" instance="845303774" alias="dispDbConStatsErrs" type="integer" />
+    </group>
+    <systemDef name="BlackBerry Enterprise Server">
+        <sysoidMask>.1.3.6.1.4.1.3530.</sysoidMask>
+        <collect>
+            <includeGroup>besSysHealthSrp</includeGroup>
+            <includeGroup>besDispatcher</includeGroup>
+        </collect>
+    </systemDef>
+</datacollection-group>

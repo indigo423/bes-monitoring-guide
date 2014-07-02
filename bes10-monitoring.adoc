@@ -1,5 +1,8 @@
 = Monitoring Black Berry 10
 
+.Monitoring BlackBerry Enterprise Server 10
+image::bes10-monitoring.png[BES10]
+
 == Basic network availability
 
 === ICMP
@@ -206,7 +209,7 @@ In addition, _FRS_ can resolve file and folder conflicts to make data consistent
 
 Further details: http://technet.microsoft.com/en-us/library/cc781582%28v=ws.10%29.aspx[Technet: What Is FRS?]
 
-.Windows service monitor for ???-FRS-Service-Name??? in `poller-configuration.xml`
+.Windows service monitor for _File Replication_ in `poller-configuration.xml`
 [source,xml]
 ----
 <service name="Win32-File-Replication" interval="300000" user-defined="false" status="on">
@@ -236,7 +239,7 @@ As in other implementations of the _Kerberos_ protocol, the _KDC_ is a single pr
 
 - http://msdn.microsoft.com/en-us/library/windows/desktop/aa378170%28v=vs.85%29.aspx[Technet: Key Distribution Center]
 
-.Windows service monitor for ???-KDC-Service-Name??? in `poller-configuration.xml`
+.Windows service monitor for _Key Distribution Center_ in `poller-configuration.xml`
 [source,xml]
 ----
 <service name="Win32-Kerberos-Key-Distribution-Center" interval="300000" user-defined="false" status="on">
@@ -278,7 +281,7 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
 - http://technet.microsoft.com/en-us/library/cc775549%28v=ws.10%29.aspx[Technet: What Is Active Directory Replication Topology]
 - http://technet.microsoft.com/en-us/library/ff799055.aspx[Technet: http://technet.microsoft.com/en-us/library/ff799055.aspx]
 
-.Windows service monitor for ???-ISM-Service-Name??? in `poller-configuration.xml`
+.Windows service monitor for _Intersite Messaging_ in `poller-configuration.xml`
 [source,xml]
 ----
 <service name="Win32-Intersite-Messaging" interval="30000" user-defined="true" status="on">
@@ -344,23 +347,6 @@ Exchange 2013 Management Pack Health Sets
 
 - http://technet.microsoft.com/en-us/library/dn195892%28v=exchg.150%29.aspx[Technet: Exchange 2013 Management Pack Health Sets]
 - http://docs.blackberry.com/en/admin/deliverables/52733/BlackBerry_Enterprise_Service_10_version_10.1_Configuration_Guide-en.pdf[BES 10.1 Configuration Guide]
-
-Microsoft Exchange Search
-Microsoft Exchange EdgeSync
-Microsoft Exchange Transport
-Microsoft Exchange Monitoring
-Microsoft Exchange Throttling
-Microsoft Exchange Diagnostics
-Microsoft Exchange Replication
-Microsoft Exchange POP3 Backend
-Microsoft Exchange Service Host
-Microsoft Exchange IMAP4 Backend
-Microsoft Exchange Health Manager
-Microsoft Exchange Anti-spam Update
-Microsoft Exchange Information Store
-Microsoft Exchange RPC Client Access
-Microsoft Exchange Unified Messaging
-
 
 == BlackBerry Device Services
 
@@ -628,3 +614,81 @@ By default port is `7443`.
 ----
 
 == Start page in OpenNMS
+
+.Categories for calculating service level availability
+[source,xml]
+----
+<!-- ### Active Directory Essentials -->
+<category>
+    <label><![CDATA[Microsoft Active Directory Services]]></label>
+    <comment>This category reflects the service availability for Microsoft Active Directory</comment>
+    <normal>99.99</normal>
+    <warning>97</warning>
+    <service>Win32-Netlogon</service>
+    <service>Win32-File-Replication</service>
+    <service>Win32-Kerberos-Key-Distribution-Center</service>
+    <service>Win32-Time-Service</service>
+    <service>Win32-Intersite-Messaging</service>
+    <service>CIFS-Share-SYSVOL</service>
+    <service>CIFS-Share-Netlogon</service>
+    <rule><![CDATA[ipaddr != '0.0.0.0']]></rule>
+</category>
+
+<!-- ### BlackBerry BES 10 services -->
+<category>
+    <label><![CDATA[BlackBerry Enterprise Services]]></label>
+    <comment>This category reflects the service availability for BlackBerry BES 10</comment>
+    <normal>99.99</normal>
+    <warning>97</warning>
+    <service>Win32-BB-Admin-Console</service>
+    <service>Win32-BBAS-Application-Server</service>
+    <service>Win32-BBAS-Native-Code-Container</service>
+    <service>Win32-BB-Controller</service>
+    <service>Win32-BB-Dispatcher</service>
+    <service>Win32-BB-Licensing</service>
+    <service>Win32-BB-Management-Studio</service>
+    <service>Win32-BB-MDS-Connection</service>
+    <service>Win32-BB-Secure-Connection</service>
+    <service>Win32-BB-Web-Services</service>
+    <service>Win32-BB-Work-Connect-Notification</service>
+    <service>Win32-BB-Enterprise-Management-Web-Service</service>
+    <service>Win32-BB-Self-Service</service>
+    <service>Win32-BB-Device-Manager</service>
+    <service>HTTP-BlackBerry-Admin-Service</service>
+    <service>HTTPS-BlackBerry-Admin-Service</service>
+    <service>HTTPS-BlackBerry-Licensing-Server</service>
+    <service>HTTPS-BlackBerry-Universal-Device-Service</service>
+    <service>HTTPS-BlackBerry-Management-Studio</service>
+    <rule><![CDATA[ipaddr != '0.0.0.0']]></rule>
+</category>
+----
+
+.Display service level availability on start page
+[source,xml]
+----
+<?xml version="1.0"?>
+<viewinfo>
+  <view>
+    <view-name>WebConsoleView</view-name>
+    <section>
+      <section-name><![CDATA[Corporate Critical Services]]></section-name>
+      <category><![CDATA[Microsoft Active Directory Services]]></category>
+      <category><![CDATA[BlackBerry Enterprise Services]]></category>
+    </section>
+    <section>
+      <section-name><![CDATA[Categories]]></section-name>
+      <category><![CDATA[Network Interfaces]]></category>
+      <category><![CDATA[Web Servers]]></category>
+      <category><![CDATA[Email Servers]]></category>
+      <category><![CDATA[DNS and DHCP Servers]]></category>
+      <category><![CDATA[Database Servers]]></category>
+      <category><![CDATA[JMX Servers]]></category>
+      <category><![CDATA[Other Servers]]></category>
+    </section>
+    <section>
+      <section-name><![CDATA[Total]]></section-name>
+      <category><![CDATA[Overall Service Availability]]></category>
+    </section>
+  </view>
+</viewinfo>
+----
