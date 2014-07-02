@@ -393,6 +393,7 @@
   <monitor service="OpenNMS-JVM" class-name="org.opennms.netmgt.poller.monitors.Jsr160Monitor"/>
   <monitor service="VMwareCim-HostSystem" class-name="org.opennms.netmgt.poller.monitors.VmwareCimMonitor"/>
   <monitor service="VMware-ManagedEntity" class-name="org.opennms.netmgt.poller.monitors.VmwareMonitor"/>
+
   <!-- ###############                      -->
   <!-- ### Active Directory Essentials      -->
   <!-- ############                         -->
@@ -409,6 +410,7 @@
   <!-- ############                         -->
   <monitor service="DNS-Resolution-v4" class-name="org.opennms.netmgt.poller.monitors.DNSResolutionMonitor"/>
   <monitor service="DNS-Resolution-v6" class-name="org.opennms.netmgt.poller.monitors.DNSResolutionMonitor"/>
+
   <!-- ###############                      -->
   <!-- ### BlackBerry 10 Service Monitoring -->
   <!-- ############                         -->
