@@ -322,7 +322,7 @@
       <parameter key="retry" value="3"/>
       <parameter key="timeout" value="3000"/>
       <parameter key="port" value="6443"/>
-      <parameter key="response" value="200-202,299"/>
+      <parameter key="response" value="301"/>
     </service>
     <service name="HTTPS-BlackBerry-Management-Studio" interval="300000" user-defined="false" status="on">
       <parameter key="retry" value="3"/>
