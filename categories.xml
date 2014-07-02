@@ -109,7 +109,7 @@
                 <service>Win32-Intersite-Messaging</service>
                 <service>CIFS-Share-SYSVOL</service>
                 <service>CIFS-Share-Netlogon</service>
-                <rule><![CDATA[ipaddr == '0.0.0.0']]></rule>
+                <rule><![CDATA[ipaddr != '0.0.0.0']]></rule>
             </category>
 
             <!-- ### BlackBerry BES 10 services -->
@@ -137,7 +137,7 @@
                 <service>HTTPS-BlackBerry-Licensing-Server</service>
                 <service>HTTPS-BlackBerry-Universal-Device-Service</service>
                 <service>HTTPS-BlackBerry-Management-Studio</service>
-                <rule><![CDATA[ipaddr == '0.0.0.0']]></rule>
+                <rule><![CDATA[ipaddr != '0.0.0.0']]></rule>
             </category>
         </categories>
     </categorygroup>
