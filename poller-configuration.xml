@@ -231,8 +231,6 @@
       <parameter key="mode" value="path_exist" />
     </service>
 
-
-
     <!-- ###############                      -->
     <!-- ### Basic network availability       -->
     <!-- ############                         -->
@@ -263,7 +261,7 @@
       <parameter key="service-name" value="BES10 - BlackBerry Administration Service - Application Server"/>
     </service>
     <service name="Win32-BBAS-Native-Code-Container" interval="30000" user-defined="true" status="on">
-      <parameter key="service-name" value="BES10 - BlackBerry Administration Service - Native Code"/>
+      <parameter key="service-name" value="BES10 - BlackBerry Administration Service - Native Code Container"/>
     </service>
     <service name="Win32-BB-Controller" interval="30000" user-defined="true" status="on">
       <parameter key="service-name" value="BES10 - BlackBerry Controller"/>
@@ -296,7 +294,7 @@
       <parameter key="service-name" value="BES10 - Self-Service"/>
     </service>
     <service name="Win32-BB-Device-Manager" interval="30000" user-defined="true" status="on">
-      <parameter key="service-name" value="BlackBerry Device Manager"/>
+      <parameter key="service-name" value="Blackberry Device Manager"/>
     </service>
 
     <!-- ###############                      -->

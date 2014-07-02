@@ -306,10 +306,10 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
 <monitor service="CIFS-Share-SYSVOL" class-name="org.opennms.netmgt.poller.monitors.JCifsMonitor" />
 ----
 
-.CIFS monitoring for NetLogon-Share in `poller-configuration.xml`
+.CIFS monitoring for Netlogon-Share in `poller-configuration.xml`
 [source,xml]
 ----
-<service name="CIFS-Share-NetLogon" interval="30000" user-defined="true" status="on">
+<service name="CIFS-Share-Netlogon" interval="30000" user-defined="true" status="on">
     <parameter key="retry" value="1" />
     <parameter key="timeout" value="3000" />
     <parameter key="domain" value="contoso" />
@@ -319,7 +319,7 @@ The _ISM service_ directs send requests and receive requests to the appropriate 
     <parameter key="mode" value="path_exist" />
 </service>
 
-<monitor service="CIFS-Share-NetLogon" class-name="org.opennms.netmgt.poller.monitors.JCifsMonitor" />
+<monitor service="CIFS-Share-Netlogon" class-name="org.opennms.netmgt.poller.monitors.JCifsMonitor" />
 ----
 
 === Windows Events throught Traps
@@ -471,7 +471,7 @@ report.bes.notconnected.command=--title="Total Seconds Not Connected to Wireless
     <parameter key="service-name" value="BES10 - BlackBerry Administration Service - Application Server"/>
 </service>
 <service name="Win32-BBAS-Native-Code-Container" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BES10 - BlackBerry Administration Service - Native Code"/>
+    <parameter key="service-name" value="BES10 - BlackBerry Administration Service - Native Code Container"/>
 </service>
 <service name="Win32-BB-Controller" interval="30000" user-defined="true" status="on">
     <parameter key="service-name" value="BES10 - BlackBerry Controller"/>
@@ -504,7 +504,7 @@ report.bes.notconnected.command=--title="Total Seconds Not Connected to Wireless
     <parameter key="service-name" value="BES10 - Self-Service"/>
 </service>
 <service name="Win32-BB-Device-Manager" interval="30000" user-defined="true" status="on">
-    <parameter key="service-name" value="BlackBerry Device Manager"/>
+    <parameter key="service-name" value="Blackberry Device Manager"/>
 </service>
 
 <monitor service="Win32-BB-Admin-Console" class-name="org.opennms.netmgt.poller.monitors.Win32ServiceMonitor"/>
